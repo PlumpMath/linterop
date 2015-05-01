@@ -1,0 +1,38 @@
+
+#############
+#############################
+
+set(L_ACCESS_SRC
+    ../third/linterop/src/interop/access/lua_access.cpp
+    ../third/linterop/src/interop/access/lua_access.h
+    ../third/linterop/src/interop/access/lua_access_class.cc
+    ../third/linterop/src/interop/access/lua_access_class.hpp
+    ../third/linterop/src/interop/access/lua_access_macros.h
+    ../third/linterop/src/interop/access/refobj.cpp
+    ../third/linterop/src/interop/access/refobj.h
+    ../third/linterop/src/interop/access/refproto.cpp
+    ../third/linterop/src/interop/access/refproto.h
+)
+
+source_group(third\\interop\\access
+    FILES ${L_ACCESS_SRC}
+)
+set(FULL_SRC_LIST
+    ${FULL_SRC_LIST} ${L_ACCESS_SRC}
+)
+set(INTEROP_SRC
+    ../third/linterop/src/interop/lextension.c
+    ../third/linterop/src/interop/lextension.h
+    ../third/linterop/src/interop/luacomm.cc
+    ../third/linterop/src/interop/luacomm.h
+    ../third/linterop/src/interop/luathread.hpp
+    ../third/linterop/src/interop/luavm.cc
+    ../third/linterop/src/interop/luavm.h
+)
+source_group(third\\interop
+    FILES ${INTEROP_SRC}
+)
+set(FULL_SRC_LIST
+    ${FULL_SRC_LIST} ${INTEROP_SRC}
+)
+include_directories(../third/linterop/src)
