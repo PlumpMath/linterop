@@ -40,7 +40,7 @@ end
 
 Dir.chdir build_dir
 
-cmd = "cmake -G \"#{target_ide}\" .."
+cmd = "cmake -G \"#{target_ide}\" ../src"
 if not system cmd then
  puts "Failed to build project"
  exit 1
