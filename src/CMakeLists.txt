@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(linterop_test)
 
-add_subdirectory(../external/lua/src, ${CMAKE_BINARY_DIR}/lib/lua)
+add_subdirectory(../external/lua/src ${CMAKE_BINARY_DIR}/lib/lua)
 
 set(L_ACCESS_SRC
     ./interop/access/lua_access.cpp
@@ -15,7 +15,7 @@ set(L_ACCESS_SRC
     ./interop/access/refproto.h
 )
 
-source_group(interop/access
+source_group(interop\\access
     FILES ${L_ACCESS_SRC}
 )
 
@@ -30,23 +30,29 @@ set(INTEROP_SRC
 )
 
 source_group(interop
-    FILES ${INTEROPSRC}
+    FILES ${INTEROP_SRC}
 )
 
 set(TEST_SRC
-    ./test/main.cc
+    ../test/main.cc
 )
 
 source_group(test
-    FILES ${TEST_SRC)
+    FILES ${TEST_SRC}
 )
 
-add_executable(linterop_test
-    ${TEST_SRC} ${L_ACCESS_SRC} ${INTEROP_SRC}
+source_group(test
+    FILES ${TEST_SRC}
 )
 
-include_directory(./src)
+add_executable(linterop_test ${TEST_SRC} ${L_ACCESS_SRC} ${INTEROP_SRC})
 
-target_link_libraries(linterop_test, liblua)
-#set_target_properties(linterop_test,
-    
+include_directories(./src)
+include_directories(../external/lua/src)
+
+target_link_libraries(linterop_test liblua)
+set_target_properties(linterop_test
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output"
+)
