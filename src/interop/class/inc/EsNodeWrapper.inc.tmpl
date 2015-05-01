@@ -1,0 +1,82 @@
+
+//////////////////
+//These codes shall be generated automatically.
+
+#define EsNodeTmpName	"DDGraphics_EsNode"
+
+static int __gcEsNode(lua_State *L)
+{
+	printf("One node is disposed\n");
+	return 0;
+}
+
+struct EsNodeWrapper
+{
+	void setScale(float xs, float ys, float zs)
+	{
+		ref->setScale(xs, ys, zs);
+	}
+	void setTransform(float xf, float yf, float zf)
+	{
+		ref->setTransform(xf, yf, zf);
+	}
+	void setRotate(float radians, float x, float y, float z)
+	{
+		ref->setRotate(radians, x, y, z);
+	}
+	void setVisible(bool visible)
+	{
+		ref->setVisible(visible);
+	}
+
+	void addSub(EsNodeWrapper*rhs)
+	{
+		ref->addSub(rhs->ref);
+	}
+	EsNode* ref;
+	static const char *MetaName;
+};
+
+const char* EsNodeWrapper::MetaName = EsNodeTmpName;
+
+static int es_setScale(lua_State *L)
+{
+	if(lua_gettop(L) != 4){
+		luaL_error(L, "Need %d parameters for %s", 4, __FUNCTION__);
+	}
+	EsNodeWrapper *p1 = checkUserData<EsNodeWrapper>(L, 1);
+	float p2 = luaL_checknumber(L, 2);
+	float p3 = luaL_checknumber(L, 3);
+	float p4 = luaL_checknumber(L, 4);
+	p1->setScale(p2,p3,p4);
+	return 0;
+}
+
+static int es_addSub(lua_State *L)
+{
+	if(lua_gettop(L)!=2){
+		luaL_error(L, "Need %d parameters for %s", 2, __FUNCTION__);
+	}
+	EsNodeWrapper *p1 = checkUserData<EsNodeWrapper>(L,1);
+	EsNodeWrapper *p2 = checkUserData<EsNodeWrapper>(L,2);
+	p1->addSub(p2);
+	return 0;
+}
+
+static luaL_Reg EsNodeTmpIndex[]={
+	{"setScale", es_setScale},
+	{"addSub", es_addSub},
+	{NULL, NULL},
+};
+
+void loadEsNodeWrapper()
+{
+	_DeclareState()
+	luaL_newmetatable(L, EsNodeTmpName);	// And stay where it is 
+	lua_pushvalue(L, -1);
+	lua_pushcfunction(L, __gcEsNode);
+	lua_setfield(L, -2, "__gc");	//~ the hard-code name complying with Lua
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	luaL_register(L, NULL, EsNodeTmpIndex);
+}

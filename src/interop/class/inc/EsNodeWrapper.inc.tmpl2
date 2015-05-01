@@ -1,0 +1,307 @@
+
+
+
+
+//////////////////
+//These codes shall be generated automatically.
+//Sun Mar 01 2015 17:07:11 GMT+0800 (中国标准时间)
+
+#define _EsNodeMetaString	"DDGraphics_EsNode"
+
+struct EsNodeWrapper {
+
+  void addSub(EsNodeWrapper* p1)
+  {
+    _ref->addSub(p1->_ref);
+  }
+  void setColor(float p1,float p2,float p3,float p4)
+  {
+    _ref->setColor(p1,p2,p3,p4);
+  }
+  void setScale(float p1,float p2,float p3)
+  {
+    _ref->setScale(p1,p2,p3);
+  }
+  void setTransform(float p1,float p2,float p3)
+  {
+    _ref->setTransform(p1,p2,p3);
+  }
+  void setRotate(float p1,float p2,float p3,float p4)
+  {
+    _ref->setRotate(p1,p2,p3,p4);
+  }
+  void setVisible(bool p1)
+  {
+    _ref->setVisible(p1);
+  }
+  EsNode* _ref;
+  static const char* MetaName;
+};
+
+
+const char* EsNodeWrapper::MetaName = _EsNodeMetaString;
+
+#define _BlenderNodeMetaString	"DDGraphics_BlenderNode"
+
+
+static int EsNode_addSub(lua_State *L) 
+{
+	if(lua_gettop(L)!=2){
+		luaL_error(L, "Need %d parameters for %s", 2, __FUNCTION__);
+	}
+
+
+  EsNodeWrapper* p1 = checkUserData<EsNodeWrapper>(L, 1);
+  EsNodeWrapper* p2 = checkUserData<EsNodeWrapper>(L, 2);
+  p1->addSub(p2);
+  return 0;
+}
+
+
+
+static int EsNode_setColor(lua_State *L) 
+{
+	if(lua_gettop(L)!=5){
+		luaL_error(L, "Need %d parameters for %s", 5, __FUNCTION__);
+	}
+
+
+  EsNodeWrapper* p1 = checkUserData<EsNodeWrapper>(L, 1);
+  float p2 = lua_tonumber(L, 2);
+  float p3 = lua_tonumber(L, 3);
+  float p4 = lua_tonumber(L, 4);
+  float p5 = lua_tonumber(L, 5);
+  p1->setColor(p2,p3,p4,p5);
+  return 0;
+}
+
+
+
+static int EsNode_setScale(lua_State *L) 
+{
+	if(lua_gettop(L)!=4){
+		luaL_error(L, "Need %d parameters for %s", 4, __FUNCTION__);
+	}
+	EsNodeWrapper* p1 = checkUserData<EsNodeWrapper>(L, 1);
+	float p2 = lua_tonumber(L, 2);
+	float p3 = lua_tonumber(L, 3);
+	float p4 = lua_tonumber(L, 4);
+	p1->setScale(p2,p3,p4);
+	return 0;
+}
+
+static int EsNode_setTransform(lua_State *L) 
+{
+	if(lua_gettop(L)!=4){
+		luaL_error(L, "Need %d parameters for %s", 4, __FUNCTION__);
+	}
+
+
+  EsNodeWrapper* p1 = checkUserData<EsNodeWrapper>(L, 1);
+  float p2 = lua_tonumber(L, 2);
+  float p3 = lua_tonumber(L, 3);
+  float p4 = lua_tonumber(L, 4);
+  p1->setTransform(p2,p3,p4);
+  return 0;
+}
+
+
+
+static int EsNode_setRotate(lua_State *L) 
+{
+	if(lua_gettop(L)!=5){
+		luaL_error(L, "Need %d parameters for %s", 5, __FUNCTION__);
+	}
+
+
+  EsNodeWrapper* p1 = checkUserData<EsNodeWrapper>(L, 1);
+  float p2 = lua_tonumber(L, 2);
+  float p3 = lua_tonumber(L, 3);
+  float p4 = lua_tonumber(L, 4);
+  float p5 = lua_tonumber(L, 5);
+  p1->setRotate(p2,p3,p4,p5);
+  return 0;
+}
+
+
+
+static int EsNode_setVisible(lua_State *L) 
+{
+	if(lua_gettop(L)!=2){
+		luaL_error(L, "Need %d parameters for %s", 2, __FUNCTION__);
+	}
+
+
+  EsNodeWrapper* p1 = checkUserData<EsNodeWrapper>(L, 1);
+  bool p2 = lua_toboolean(L, 2);
+  p1->setVisible(p2);
+  return 0;
+}
+
+static luaL_Reg EsNodeTmpIndex[] = {
+  {"addSub", EsNode_addSub},
+  {"setColor", EsNode_setColor},
+  {"setScale", EsNode_setScale},
+  {"setTransform", EsNode_setTransform},
+  {"setRotate", EsNode_setRotate},
+  {"setVisible", EsNode_setVisible},
+  {NULL, NULL}
+};
+
+//This is the only thing you need to code yourself.
+
+void loadEsNodeTmpIndex()
+{
+	_DeclareState()
+	luaL_newmetatable(L, _EsNodeMetaString);
+
+	// If it is necessary to get a GC for our class.
+	// lua_pushvalue(L, -1);
+	// lua_pushcfunction(L, __gcEsNode);
+	// lua_setfield(L, -2, "__gc");	
+
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	luaL_register(L, NULL, EsNodeTmpIndex);
+}
+
+
+// The codes below shall be generated automatically soon.
+//Hand-crafted.
+struct BlenderNodeWrapper:public EsNodeWrapper
+{
+	void setFaceDefaultColor(float r, float g, float b, float a) {
+		static_cast<BlenderNode*>(_ref)->setFaceDefaultColor(r, g, b, a);
+	}
+	static const char* MetaName;
+}; 
+
+const char* BlenderNodeWrapper::MetaName = _BlenderNodeMetaString;
+
+
+static int BlenderNode_setFaceDefaultColor(lua_State *L){
+	if(lua_gettop(L) != 5){
+		luaL_error(L, "Need %d parameters for %s", 5, __FUNCTION__);
+	}
+
+	BlenderNodeWrapper* p1 = checkUserData<BlenderNodeWrapper>(L, 1);
+	float p2 = lua_tonumber(L, 2);
+	float p3 = lua_tonumber(L, 3);
+	float p4 = lua_tonumber(L, 4);
+	float p5 = lua_tonumber(L, 5);
+	p1->setFaceDefaultColor(p2,p3,p4,p5);
+	return 0;
+}
+static luaL_Reg BlenderNodeTmpIndex[]={
+	{"setFaceDefaultColor", BlenderNode_setFaceDefaultColor},
+	{ NULL, NULL}
+};
+
+void loadBlenderNodeTmpIndex()
+{
+	_DeclareState()
+	luaL_newmetatable(L, _BlenderNodeMetaString);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	luaL_register(L, NULL, BlenderNodeTmpIndex);
+
+	//Deriveds
+	luaL_getmetatable(L, _EsNodeMetaString);
+	lua_setmetatable(L, -2);
+}
+
+static int createBlenderNormal(lua_State *L)
+{
+	int top = lua_gettop(L);
+	if(lua_gettop(L)!=2){
+		luaL_error(L, "Need %d parameters for %s", 2, __FUNCTION__);
+	}
+	const char* p1 = lua_tostring(L, 1);
+	bool p2 = lua_toboolean(L, 2);
+	// For now, we are all EsNode derives. No one is special.
+	EsNodeWrapper *rv = createUserData<EsNodeWrapper>(L);
+	rv->_ref = BlenderNormal::create(p1,p2);
+	return 1;
+}
+
+
+static int createBlenderNode(lua_State *L)
+{
+	int top = lua_gettop(L);
+	if(lua_gettop(L)!=2){
+		luaL_error(L, "Need %d parameters for %s", 2, __FUNCTION__);
+	}
+	const char* p1 = lua_tostring(L, 1);
+	bool p2 = lua_toboolean(L, 2);
+	// For now, we are all EsNode derives. No one is special.
+	EsNodeWrapper *rv = createUserData<BlenderNodeWrapper>(L);
+	rv->_ref = BlenderNode::create(p1,p2);
+	return 1;
+}
+ 
+
+static int createAxisNode(lua_State *L)
+{
+	int top = lua_gettop(L);
+	if(lua_gettop(L)!=0){
+		luaL_error(L, "Need %d parameters for %s", 0, __FUNCTION__);
+	}
+	// For now, we are all EsNode derives. No one is special.
+	EsNodeWrapper *rv = createUserData<EsNodeWrapper>(L);
+	rv->_ref = AxisNode::create();
+	return 1;
+}
+
+
+static int createFieldNode(lua_State *L)
+{
+	int top = lua_gettop(L);
+	if(lua_gettop(L)!=1){
+		luaL_error(L, "Need %d parameters for %s", 1, __FUNCTION__);
+	}
+	int p1 = lua_tointeger(L, 1);
+	// For now, we are all EsNode derives. No one is special.
+	EsNodeWrapper *rv = createUserData<EsNodeWrapper>(L);
+	rv->_ref = FieldNode::create(p1);
+	return 1;
+}
+
+
+static int createLightNode(lua_State *L)
+{
+	int top = lua_gettop(L);
+	if(lua_gettop(L)!=3){
+		luaL_error(L, "Need %d parameters for %s", 3, __FUNCTION__);
+	}
+	float p1 = lua_tonumber(L, 1);
+	float p2 = lua_tonumber(L, 2);
+	float p3 = lua_tonumber(L, 3);
+	// For now, we are all EsNode derives. No one is special.
+	EsNodeWrapper *rv = createUserData<EsNodeWrapper>(L);
+	rv->_ref = LightNode::create(p1,p2,p3);
+	return 1;
+}
+
+
+static int createMimicNode(lua_State *L)
+{
+	int top = lua_gettop(L);
+	if(lua_gettop(L)!=0){
+		luaL_error(L, "Need %d parameters for %s", 0, __FUNCTION__);
+	}
+	// For now, we are all EsNode derives. No one is special.
+	EsNodeWrapper *rv = createUserData<EsNodeWrapper>(L);
+	rv->_ref = MimicNode::create();
+	return 1;
+}
+
+static luaL_Reg _ddStatics[] = {
+  {"createBlenderNormal", createBlenderNormal },
+  {"createBlenderNode", createBlenderNode },
+  {"createAxisNode", createAxisNode },
+  {"createFieldNode", createFieldNode },
+  {"createLightNode", createLightNode },
+  {"createMimicNode", createMimicNode },
+  {NULL, NULL}
+};
+void load_ddStatics(){ _DeclareState() luaL_register(L, "dd", _ddStatics); }
