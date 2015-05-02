@@ -9,8 +9,8 @@
 
 struct lua_State;
 
-#ifndef log
-#define log(...)	{fprintf(stderr,__VA_ARGS__); fprintf(stderr,"\n");}
+#ifndef slog
+#define slog(...)	{fprintf(stderr,__VA_ARGS__); fprintf(stderr,"\n");}
 #endif
 
 #define _preprocess_widget()\
@@ -38,7 +38,7 @@ struct lua_State;
 
 #define _CheckTop()\
 	if( lua_gettop(L) != top ){\
-		log("Error stack top corrupted!\n");\
+		slog("Error stack top corrupted!\n");\
 		assert(0);\
 	}
 
@@ -53,7 +53,7 @@ struct lua_State;
 	lua_getglobal(L, funcName);\
 	if ( ! lua_isfunction(L, -1) )\
 	{\
-		log("Error executing %s", funcName);\
+		slog("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return false;	\
@@ -61,7 +61,7 @@ struct lua_State;
 	\
 	if( lua_pcall(L, 0, 1, traceback) )\
 	{\
-		log("Error executing %s", funcName);\
+		slog("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return false;\
@@ -83,7 +83,7 @@ struct lua_State;
 	lua_getglobal(L, funcName);\
 	if ( ! lua_isfunction(L, -1) )\
 	{\
-		log("Error executing %s", funcName);\
+		slog("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return "";	\
@@ -91,7 +91,7 @@ struct lua_State;
 	\
 	if( lua_pcall(L, 0, 1, traceback) )\
 	{\
-		log("Error executing %s", funcName);\
+		slog("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return "";\
@@ -114,7 +114,7 @@ struct lua_State;
 	lua_getglobal(L, funcName);\
 	if ( ! lua_isfunction(L, -1) )\
 	{\
-		log("Error executing %s", funcName);\
+		slog("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return 0;	\
@@ -122,7 +122,7 @@ struct lua_State;
 	\
 	if( lua_pcall(L, 0, 1, traceback) )\
 	{\
-		log("Error executing %s", funcName);\
+		slog("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return 0;\
@@ -208,7 +208,7 @@ struct lua_State;
 			break;\
 		_prepare_ccnode_parameters()\
 		default:\
-			log("Error unknown object identifier :%c", format[i]);\
+			slog("Error unknown object identifier :%c", format[i]);\
 			--parameterCount;\
 			break;\
 		}\
@@ -229,7 +229,7 @@ struct lua_State;
 	\
 	if( lua_pcall(L, parameterCount, returnCount, traceback) )\
 	{\
-		log("Error executing %s", funcName);\
+		slog("Error executing %s", funcName);\
 		lua_settop(L, top);\
 		return __VA_ARGS__;\
 	}
@@ -240,7 +240,7 @@ struct lua_State;
 	lua_getglobal(L, funcName);\
 	if( !lua_isfunction(L, -1) )\
 	{\
-		log("%s is not a function. Error.", funcName);\
+		slog("%s is not a function. Error.", funcName);\
 		assert(false);\
 		lua_settop(L,top);\
 		return __VA_ARGS__;\
@@ -256,15 +256,15 @@ struct lua_State;
 	}\
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);\
 	if ( !lua_istable(L, -1)){\
-		log("Error get table for %s: not a table", name);\
+		slog("Error get table for %s: not a table", name);\
 		lua_settop(L, top);\
 		return __VA_ARGS__;\
 	}\
 	lua_pushstring(L, name);\
 	lua_gettable(L, -2);\
 	if( !type_checker(L,-1)){\
-		log("Error get table %s(%s): type error", #type_checker, name);\
-		log("(%s) is actually %s\n",name, toLuaType(L, -1));\
+		slog("Error get table %s(%s): type error", #type_checker, name);\
+		slog("(%s) is actually %s\n",name, toLuaType(L, -1));\
 		lua_settop(L, top);\
 		return __VA_ARGS__;\
 	}\

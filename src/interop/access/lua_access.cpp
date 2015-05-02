@@ -66,7 +66,7 @@ std::string executeStringFunc(lua_State *L,const char *funcName, const char *for
 	_ExecuteBody(1, "")
 	if( !lua_isstring(L, -1) )
 	{
-		log("Error executing %s", funcName);
+		slog("Error executing %s", funcName);
 		lua_settop(L, top);
 		return "";
 	}
@@ -87,7 +87,7 @@ float executeNumberFunc(lua_State *L,const char *funcName, const char *format, .
 	_ExecuteBody(1, 0)
 	if( !lua_isnumber(L,-1))
 	{
-		log("Error executing %s", funcName);
+		slog("Error executing %s", funcName);
 		lua_settop(L, top);
 		return 0;
 	}
@@ -102,7 +102,7 @@ int executeIntegerFunc(lua_State *L,const char *funcName, const char *format,...
 	_ExecuteBody(1, 0)
 	if( !lua_isnumber(L,-1))
 	{
-		log("Error executing %s", funcName);
+		slog("Error executing %s", funcName);
 		lua_settop(L, top);
 		return 0;
 	}
@@ -116,7 +116,7 @@ float executeFloatFunc(lua_State *L,const char *funcName, const char *format,...
 	_ExecuteBody(1,0)
 	if( !lua_isnumber(L,-1))
 	{
-		log("Error executing %s", funcName);
+		slog("Error executing %s", funcName);
 		lua_settop(L, top);
 		return 0;
 	}
@@ -131,7 +131,7 @@ void execVoidFunc(lua_State *L, int ref, const char *format, ...)
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 	assert( lua_isfunction(L, -1) );
 	if (!lua_isfunction(L, -1)){
-		log("object on top is not a function. which is actually %s", toLuaType(L, -1));
+		slog("object on top is not a function. which is actually %s", toLuaType(L, -1));
 		lua_settop(L, top);	//~Pop the top which is put on right now.
 		return;
 	}
@@ -184,8 +184,8 @@ int ljRunObjInteger(lua_State *L, int ref, const char *name, bool *result, const
 	ExecuteFunctionOnTop(args, 1, 0)
 	va_end(args);
 	if(!lua_isnumber(L, -1)){
-		log("%s return value is not number!", name);
-		log("which is actually %s", toLuaType(L, -1));
+		slog("%s return value is not number!", name);
+		slog("which is actually %s", toLuaType(L, -1));
 		lua_settop(L, top);
 		return 0;
 	}
@@ -233,7 +233,7 @@ void ljRunObjVoidSelfUserData(lua_State *L, int ref, const char *name, bool *res
     }
 	if( lua_pcall(L, parameterCount, 0, traceback) )
 	{
-		log("Error executing %s", funcName);
+		slog("Error executing %s", funcName);
 		lua_settop(L,top);
 		return;
 	}
@@ -264,7 +264,7 @@ int ljLoadObj(lua_State *L, const char *name){
 	const int top = lua_gettop(L);
 	lua_getglobal(L,name);
 	if( !lua_istable(L, -1)){
-		log("%s is not a table", name);
+		slog("%s is not a table", name);
 		lua_settop(L, top);
 		return LUA_REFNIL;
 	}
@@ -277,7 +277,7 @@ int ljCreateTableFromFuncRef(lua_State *L, int ref, int retvals, int(*checker)(l
 	const int top = lua_gettop(L);
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 	if (!lua_isfunction(L,-1)){
-		log("Ref %d is not a function", ref);
+		slog("Ref %d is not a function", ref);
 		lua_settop(L, top);
 		return LUA_REFNIL;
 	}
@@ -285,7 +285,7 @@ int ljCreateTableFromFuncRef(lua_State *L, int ref, int retvals, int(*checker)(l
 	int numArgs = 0;
     int functionIndex = -(numArgs + 1);
     if (!lua_isfunction(L, functionIndex))  {
-        log("value at stack [%d] is not function", functionIndex);
+        slog("value at stack [%d] is not function", functionIndex);
         lua_settop(L, top);
         return LUA_REFNIL;
     }
@@ -301,7 +301,7 @@ int ljCreateTableFromFuncRef(lua_State *L, int ref, int retvals, int(*checker)(l
     error = lua_pcall(L, numArgs, 1, traceback);                  /* L: ... [G] ret */
     if (error) {
         if (traceback == 0) {
-            log("[LUA ERROR] %s", lua_tostring(L, - 1));        /* L: ... error */
+            slog("[LUA ERROR] %s", lua_tostring(L, - 1));        /* L: ... error */
         }
 		lua_settop(L, top);
         return LUA_REFNIL;
@@ -309,7 +309,7 @@ int ljCreateTableFromFuncRef(lua_State *L, int ref, int retvals, int(*checker)(l
 
 	if( 1 == retvals){
 		if( !checker(L, -1)){
-			log("return value is not a table");
+			slog("return value is not a table");
 			lua_settop(L, top);
 			return LUA_REFNIL;
 		}
@@ -334,7 +334,7 @@ int ljLoadFuncHandle(lua_State *L, const char *name) {
 	int numArgs = 0;		//Fixed
     int functionIndex = -(numArgs + 1);
     if (!lua_isfunction(L, functionIndex)) {
-        log("value at stack [%d] is not function", functionIndex);
+        slog("value at stack [%d] is not function", functionIndex);
         lua_pop(L, numArgs + 1); // remove function and arguments
         return LUA_REFNIL;
     }
@@ -351,7 +351,7 @@ int ljLoadFuncHandle(lua_State *L, const char *name) {
     error = lua_pcall(L, numArgs, 1, traceback);                  /* L: ... [G] ret */
     if (error) {
         if (traceback == 0)   {
-            log("[LUA ERROR] %s", lua_tostring(L, - 1));        /* L: ... error */
+            slog("[LUA ERROR] %s", lua_tostring(L, - 1));        /* L: ... error */
             lua_pop(L, 1); // remove error message from stack
         } else {
             lua_pop(L, 2); // remove __G__TRACKBACK__ and error message from stack
@@ -359,7 +359,7 @@ int ljLoadFuncHandle(lua_State *L, const char *name) {
         return LUA_REFNIL;
     }
 	if( !lua_isfunction(L, -1)){
-		log("return value is a %s", toLuaType(L, -1));
+		slog("return value is a %s", toLuaType(L, -1));
 		lua_settop(L, top);
 		assert(false);
 		return LUA_REFNIL;

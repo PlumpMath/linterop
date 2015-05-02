@@ -86,14 +86,14 @@ int LuaRefProto::getIntFormat(const char *name, bool *result, const char *format
 	const char *funcName = name;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 	if(!lua_istable(L, -1)){
-		log("Error ref not a table");
+		slog("Error ref not a table");
 		lua_settop(L, top);
 		return 0;
 	}
 	ExecuteFunctionWithPrepushed(args, 1, 1, 0)
 	if(!lua_isnumber(L, -1)){
-		log("Error return value is not number !!");
-		log("which is actually %s", toLuaType(L,-1));
+		slog("Error return value is not number !!");
+		slog("which is actually %s", toLuaType(L,-1));
 		lua_settop(L, top);
 		return 0;
 	}
@@ -123,7 +123,7 @@ std::string LuaRefProto::getStringFormat(const char *name, bool *result, const c
 	const char *funcName = name;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 	if(!lua_istable(L, -1)){
-		log("Error ref not a table");
+		slog("Error ref not a table");
 		lua_settop(L, top);
 		return "";
 	}
@@ -152,14 +152,14 @@ float LuaRefProto::getFloatFormat(const char *name, bool *result, const char *fo
 	const char *funcName = name;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 	if (!lua_istable(L, -1)) {
-		log("Error ref not a table");
+		slog("Error ref not a table");
 		assert(false);
 		lua_settop(L, top);
 		return 0;
 	}
 	ExecuteFunctionWithPrepushed(args, 1,1, 0)
 	if (!lua_isnumber(L,-1)){
-		log("Error return value is not float");
+		slog("Error return value is not float");
 		assert(false);
 		lua_settop(L, top);
 		return 0;
@@ -191,7 +191,7 @@ void LuaRefProto::getVoidFormat(const char *name, bool *result, const char *form
 	const char *funcName = name;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 	if(!lua_istable(L, -1)){
-		log("Error ref not a table");
+		slog("Error ref not a table");
 		lua_settop(L, top);
 		return;
 	}
@@ -236,13 +236,13 @@ bool LuaRefProto::getBooleanFormat(const char *name, bool *result, const char *f
 	const char *funcName = name;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 	if(!lua_istable(L, -1)){
-		log("Error ref not a table");
+		slog("Error ref not a table");
 		lua_settop(L, top);
 		return 0;
 	}
 	ExecuteFunctionWithPrepushed(args, 1, 1, false)
 	if(!lua_isboolean(L, -1)){
-		log("Error return value not a boolean");
+		slog("Error return value not a boolean");
 		lua_settop(L, top);
 		return 0;
 	}
