@@ -79,8 +79,16 @@ bool RefObject::require(const char *path){
 	if( lua_isfunction(L, -1)){
 		traceback = -2;
 	}
-	luaL_loadfile(L, path);
+	if( luaL_loadfile(L, path) ){
+		const char *err = lua_tostring(L, -1);
+		fprintf(stderr, "Error: %s\n", err);
+		lua_pop(L, 2);
+		assert( top == lua_gettop(L));
+		return false;
+	}
 	if( lua_pcall(L, 0, 1, traceback) ){
+		const char *err = lua_tostring(L, -1);
+		fprintf(stderr, "Error :%s\n", err);
 		lua_pop(L, 2);	/// skip the error message and the tracker
 		assert( top == lua_gettop(L) );
 		fprintf(stderr, "Error executing script %s\n", path);
