@@ -10,11 +10,7 @@
 struct lua_State;
 
 #ifndef log
-#define log(...)	printf(__VA_ARGS__);
-#endif
-
-#ifndef CCLog
-#define CCLog(...)	{fprintf(stderr, __VA_ARGS__); fprintf(stderr,"\n");}
+#define log(...)	{fprintf(stderr,__VA_ARGS__); fprintf(stderr,"\n");}
 #endif
 
 #define _preprocess_widget()\
@@ -42,7 +38,7 @@ struct lua_State;
 
 #define _CheckTop()\
 	if( lua_gettop(L) != top ){\
-		CCLog("Error stack top corrupted!\n");\
+		log("Error stack top corrupted!\n");\
 		assert(0);\
 	}
 
@@ -57,7 +53,7 @@ struct lua_State;
 	lua_getglobal(L, funcName);\
 	if ( ! lua_isfunction(L, -1) )\
 	{\
-		CCLog("Error executing %s", funcName);\
+		log("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return false;	\
@@ -65,7 +61,7 @@ struct lua_State;
 	\
 	if( lua_pcall(L, 0, 1, traceback) )\
 	{\
-		CCLog("Error executing %s", funcName);\
+		log("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return false;\
@@ -87,7 +83,7 @@ struct lua_State;
 	lua_getglobal(L, funcName);\
 	if ( ! lua_isfunction(L, -1) )\
 	{\
-		CCLog("Error executing %s", funcName);\
+		log("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return "";	\
@@ -95,7 +91,7 @@ struct lua_State;
 	\
 	if( lua_pcall(L, 0, 1, traceback) )\
 	{\
-		CCLog("Error executing %s", funcName);\
+		log("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return "";\
@@ -118,7 +114,7 @@ struct lua_State;
 	lua_getglobal(L, funcName);\
 	if ( ! lua_isfunction(L, -1) )\
 	{\
-		CCLog("Error executing %s", funcName);\
+		log("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return 0;	\
@@ -126,7 +122,7 @@ struct lua_State;
 	\
 	if( lua_pcall(L, 0, 1, traceback) )\
 	{\
-		CCLog("Error executing %s", funcName);\
+		log("Error executing %s", funcName);\
 		lua_pop(L, 2);\
 		_CheckTop()\
 		return 0;\

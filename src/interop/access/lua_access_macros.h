@@ -9,7 +9,7 @@ extern "C" {
 #include "lauxlib.h"
 }
 
-#include "LuaScriptor.h"
+//#include "LuaScriptor.h"
 
 #define _DeclareState()	\
 	int top = lua_gettop(L);
