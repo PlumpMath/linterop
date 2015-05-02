@@ -13,10 +13,6 @@ extern "C"
 #include "lauxlib.h"
 }
 
-#include "interop/class/experimental.h"
-#include "interop/class/exports.h"
-#include "interop/lua_core/lua_core.h"
-
 #include "luathread.hpp"
 #include <vector>
 

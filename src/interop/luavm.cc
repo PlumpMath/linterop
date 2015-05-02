@@ -2,6 +2,7 @@
 
 #include "luavm.h"
 #include <cassert>
+#include "interop/interopconf.h"
 
 namespace DD
 {
@@ -13,9 +14,7 @@ LuaVM::LuaVM()
 {
 	_L = luaL_newstate();
 	luaL_openlibs(_L);
-	LuaCore::doExports(_L);
-	LuaCore::injectLuaCore(_L);
-	LuaCore::injectExperimental(_L);
+	_InitLuaVM(_L);
 }
 
 LuaVM::~LuaVM()
