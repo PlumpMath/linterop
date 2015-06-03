@@ -141,6 +141,7 @@ bool RefObject::requireFuncDo(const char *path){
 		return false;
 	}
 	take(fr.createObj());
+    return true;
 }
 
 void RefObject::loadFromFunc(const char *name){
