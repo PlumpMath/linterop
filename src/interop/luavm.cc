@@ -8,19 +8,19 @@ namespace DD
 {
 
 LuaVM::LuaVM()
-	:_L(nullptr),
+	:_luaStateObj(nullptr),
 	taskID_(0),
 	lastTaskID_(0)
 {
-	_L = luaL_newstate();
-	luaL_openlibs(_L);
-	_InitLuaVM(_L);
+	_luaStateObj = luaL_newstate();
+	luaL_openlibs(_luaStateObj);
+	_InitLuaVM(_luaStateObj);
 }
 
 LuaVM::~LuaVM()
 {
 	purge();
-	lua_close(_L);
+	lua_close(_luaStateObj);
 }
 
 void LuaVM::purge()
@@ -31,21 +31,21 @@ void LuaVM::purge()
 
 bool LuaVM::loadScript(const char *path)
 {
-	int top = lua_gettop(_L);
-	if(luaL_loadfile(_L, path)){
+	int top = lua_gettop(_luaStateObj);
+	if(luaL_loadfile(_luaStateObj, path)){
 		fprintf(stderr, "Error loading %s\n", path);
-		lua_pop(_L, 1);
-		assert( lua_gettop(_L) == top);
+		lua_pop(_luaStateObj, 1);
+		assert( lua_gettop(_luaStateObj) == top);
 		return false;
 	}
-	if(lua_pcall(_L, 0, 0, 0)){
-		const char *err = lua_tostring(_L, -1);
+	if(lua_pcall(_luaStateObj, 0, 0, 0)){
+		const char *err = lua_tostring(_luaStateObj, -1);
 		fprintf(stderr, "script error :%s\n", err);
-		lua_pop(_L, 1);
-		assert(lua_gettop(_L) == top);
+		lua_pop(_luaStateObj, 1);
+		assert(lua_gettop(_luaStateObj) == top);
 		return false;
 	}
-	assert( lua_gettop(_L) == top);
+	assert( lua_gettop(_luaStateObj) == top);
 	return true;
 }
 
@@ -103,7 +103,7 @@ lua_State* LuaVM::thread()
 		}
 	}
 
-	LuaThreadRef one(_L);
+	LuaThreadRef one(_luaStateObj);
 	pool_.push_back(one);
 	return one.state();
 }

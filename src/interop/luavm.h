@@ -37,7 +37,7 @@ private:
 	lua_State *thread();	//~ All the same
 
 private:
-	lua_State *_L;
+	lua_State *_luaStateObj;
 	typedef std::unordered_map<lua_State*, int> TaskMap;
 	TaskMap _task;
 	int taskID_;
