@@ -1,5 +1,6 @@
 
 #include "lua_access.h"
+#include "check_stack.h"
 
 extern "C" {
 #include "lua.h"
@@ -372,4 +373,50 @@ int ljLoadFuncHandle(lua_State *L, const char *name) {
     return ret;
 }
 
+void inspect_package_path(lua_State *L)
+{
+	_BC(L);
+	lua_getglobal(L, "package");
+	lua_getfield(L, -1, "path");
+	if( !lua_isstring(L, -1) )
+	{
+		const char *t = toLuaType(L, -1);
+		printf("Unexpected type: %s\n", t);
+		lua_type(L, -1);
+		lua_pop(L, 2);
+		return;
+	}
+	const char *lstr = lua_tostring(L, -1);
+	printf("package.path = <%s>\n", lstr);
+	lua_pop(L, 2);
+}
 
+//:path is relative to current working directory
+void extend_package_path(lua_State *L, const char *npath)
+{
+	_BC(L);
+	lua_getglobal(L, "package");
+	lua_getfield(L, -1, "path");
+	if( !lua_isstring(L, -1) )
+	{
+		const char *t = toLuaType(L, -1);
+		printf("Unexpected type: %s\n", t);
+		lua_type(L, -1);
+		lua_pop(L, 2);
+		return;
+	}
+	const char *lstr = lua_tostring(L, -1);
+	char path[BUFSIZ*3 + 1];
+	getcwd(path, sizeof(path));
+	strcat(path, _SlashStr);
+	strcat(path, npath);
+	strcat(path,_SlashStr);
+	strcat(path, "?.lua");
+
+	strcat(path, ";");
+	strcat(path, lstr);
+
+	lua_pushstring(L, path);
+	lua_setfield(L, -3, "path");
+	lua_pop(L, 2);
+}

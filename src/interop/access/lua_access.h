@@ -312,6 +312,16 @@ int ljCreateTableFromFuncRef(lua_State *L,int ref, int retvals, int(*checker)(lu
 const char* toLuaType(lua_State *L, int index);
 
 
+void inspect_package_path(lua_State *L);
+void extend_package_path(lua_State *L, const char *npath);
+
+#ifdef _MSC_VER
+#	include "direct.h"
+#	define _SlashStr	"\\"
+#else
+#	define _SlashStr	"/"
+#endif
+
 #include "lua_access_class.hpp"
 
 #endif
