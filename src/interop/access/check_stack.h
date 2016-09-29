@@ -22,4 +22,6 @@ private:
 
 #define _BC(L)	_BCheck_clz ___12300xxx(L)
 
+//#define _BC(L)	(void*)0
+
 #endif
