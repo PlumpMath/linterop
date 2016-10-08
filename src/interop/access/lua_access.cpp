@@ -8,6 +8,10 @@ extern "C" {
 #include "lauxlib.h"
 }
 
+#ifndef _WIN32
+#include <unistd.h>
+#endif
+
 const char* toLuaType(lua_State *L, int index){
 	int t = lua_type(L, index);
 	const char *typeStr = "Unknown";
