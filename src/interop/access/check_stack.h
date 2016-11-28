@@ -4,6 +4,7 @@
 
 #include <cassert>
 
+#if _MSC_VER
 class _BCheck_clz{
 public:
 	_BCheck_clz(lua_State *L):
@@ -19,9 +20,10 @@ private:
 	lua_State* const _L;
 	const int _top;
 };
-
 #define _BC(L)	_BCheck_clz ___12300xxx(L)
 
-//#define _BC(L)	(void*)0
-
+#else
+//~ For the other two.
+#	define _BC(L)	(void*)0
+#endif
 #endif
